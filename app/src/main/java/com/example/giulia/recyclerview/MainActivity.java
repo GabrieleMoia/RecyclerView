@@ -13,15 +13,25 @@ import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
     int n = 0;
-    RecyclerView myRecyclerView;
+    private RecyclerView myRecyclerView;
+    private RecyclerView.Adapter<Adapter.ViewHolder> myAdapter;
+    private RecyclerView.LayoutManager myLayoutManager;
+    public static LayoutManagerType myLayoutManagerType;
+
+    public enum LayoutManagerType {
+        GRID_LAYOUT_MANAGER,
+        LINEAR_LAYOUT_MANAGER
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myRecyclerView= (RecyclerView) findViewById(R.id.rv);
-        LinearLayoutManager myLayoutManager = new LinearLayoutManager(this);
+        myRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
+        myLayoutManager = new LinearLayoutManager(this);
+        myLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
         myRecyclerView.setLayoutManager(myLayoutManager);
-        Adapter myAdapter = new Adapter(getApplicationContext());
+        myAdapter = new Adapter(getApplicationContext());
         myRecyclerView.setAdapter(myAdapter);
     }
 
@@ -36,26 +46,52 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch (item.getItemId()) {
+            case R.id.action_cart:
+                switch (myLayoutManagerType) {
+                    case GRID_LAYOUT_MANAGER:
+                        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
+                        break;
+                    case LINEAR_LAYOUT_MANAGER:
+                        setRecyclerViewLayoutManager(LayoutManagerType.GRID_LAYOUT_MANAGER);
+                        break;
+                    default:
+                        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
+                        break;
+                }
+        }
+        return true;
+    }
 
 
-        if (n % 2 == 0) {
-            LinearLayoutManager myLayoutManager = new GridLayoutManager(this, 2);
-            myRecyclerView.setLayoutManager(myLayoutManager);
-            Adapter myAdapter = new Adapter(getApplicationContext());
-            myRecyclerView.setAdapter(myAdapter);
-            n += 1;
-        } else {
-            LinearLayoutManager myLayoutManager = new LinearLayoutManager(this);
-            myRecyclerView.setLayoutManager(myLayoutManager);
-            Adapter myAdapter = new Adapter(getApplicationContext());
-            myRecyclerView.setAdapter(myAdapter);
-            n += 1;
+    public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
+        int scrollPosition = 0;
+
+        // If a layout manager has already been set, get current scroll position.
+        if (myRecyclerView.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) myRecyclerView.getLayoutManager())
+                    .findFirstCompletelyVisibleItemPosition();
         }
 
-        return false;
-    }
+        switch (layoutManagerType) {
+            case GRID_LAYOUT_MANAGER:
+                myLayoutManager = new GridLayoutManager(this, 2);
+                myLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
+                break;
+            case LINEAR_LAYOUT_MANAGER:
+                myLayoutManager = new LinearLayoutManager(this);
+                myLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+                break;
+            default:
+                myLayoutManager = new LinearLayoutManager(this);
+                myLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+        }
 
-    public RecyclerView.LayoutManager getLayout() {
-        return myRecyclerView.getLayoutManager();
+        myAdapter = new Adapter(getApplicationContext());
+        myRecyclerView.setAdapter(myAdapter);
+
+        myRecyclerView.setLayoutManager(myLayoutManager);
+        myRecyclerView.scrollToPosition(scrollPosition);
     }
 }
+

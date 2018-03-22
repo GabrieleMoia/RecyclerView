@@ -1,12 +1,16 @@
 package com.example.giulia.recyclerview;
 
 import android.content.Context;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import static com.example.giulia.recyclerview.MainActivity.LayoutManagerType.GRID_LAYOUT_MANAGER;
+import static com.example.giulia.recyclerview.MainActivity.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
 
 /**
  * Created by Giulia on 19/03/2018.
@@ -21,10 +25,21 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MainActivity mainActivity=new MainActivity();
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.linear_item, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        MainActivity mainActivity = new MainActivity();
+        View itemView;
+
+        switch (mainActivity.myLayoutManagerType) {
+            case GRID_LAYOUT_MANAGER:
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item, parent, false);
+                break;
+            case LINEAR_LAYOUT_MANAGER:
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.linear_item, parent, false);
+                break;
+            default:
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.linear_item, parent, false);
+                break;
+        }
+        return new ViewHolder(itemView);
     }
 
     @Override
