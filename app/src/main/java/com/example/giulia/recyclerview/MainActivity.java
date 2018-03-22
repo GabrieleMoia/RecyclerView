@@ -9,15 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
     int n = 0;
-
+    RecyclerView myRecyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView myRecyclerView = (RecyclerView) findViewById(R.id.rv);
+        myRecyclerView= (RecyclerView) findViewById(R.id.rv);
         LinearLayoutManager myLayoutManager = new LinearLayoutManager(this);
         myRecyclerView.setLayoutManager(myLayoutManager);
         Adapter myAdapter = new Adapter(getApplicationContext());
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
-        RecyclerView myRecyclerView = (RecyclerView) findViewById(R.id.rv);
+
         if (n % 2 == 0) {
             LinearLayoutManager myLayoutManager = new GridLayoutManager(this, 2);
             myRecyclerView.setLayoutManager(myLayoutManager);
@@ -52,5 +53,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    public RecyclerView.LayoutManager getLayout() {
+        return myRecyclerView.getLayoutManager();
     }
 }
