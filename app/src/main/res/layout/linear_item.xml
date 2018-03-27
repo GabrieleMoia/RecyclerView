@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:orientation="vertical"
-        card_view:cardBackgroundColor="#005eff"
+        card_view:cardBackgroundColor="#fff"
         card_view:cardCornerRadius="15dp"
         card_view:cardElevation="7dp">
 
@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="#6476f9a1" />
+            android:textColor="#64a1b4fc" />
 
         <ImageView
             android:id="@+id/img"

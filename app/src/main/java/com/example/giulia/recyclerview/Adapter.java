@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import static com.example.giulia.recyclerview.MainActivity.LayoutManagerType.GRID_LAYOUT_MANAGER;
-import static com.example.giulia.recyclerview.MainActivity.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-
 /**
  * Created by Giulia on 19/03/2018.
  */
@@ -44,7 +41,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(Adapter.ViewHolder holder, int position) {
-        holder.tv.setText("ciao");
+        holder.tv.setText("Loop_IC_Launcher");
     }
 
     @Override
